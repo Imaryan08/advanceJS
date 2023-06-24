@@ -202,3 +202,63 @@ if (process.env.USER === "") {
     process.et(0);
   });
 }
+
+// N queens variant
+
+function runProgram(input) {
+  let n = +input;
+  let board = [];
+  for (var i = 0; i < n; i++) {
+    board.push(new Array(n).fill(0));
+  }
+  let count = 0;
+  check(board, 0, n);
+  console.log(count);
+
+  function check(board, row, N) {
+    if (row == N) {
+      count++;
+      return;
+    }
+    for (let i = 0; i < N; i++) {
+      if (check_safe(board, row, i) === true) {
+        board[row][i] = 1;
+        check(board, row + 1, N);
+        board[row][i] = 0;
+      }
+    }
+  }
+
+  function check_safe(board, row, col) {
+    for (let i = row - 1; i >= 0; i--) {
+      if (board[i][col] == 1) return false;
+    }
+    for (let i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) {
+      if (board[i][j] == 1) return false;
+    }
+    for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+      if (board[i][j] == 1) return false;
+    }
+    return true;
+  }
+}
+if (process.env.USER === "") {
+  runProgram(``);
+} else {
+  process.stdin.resume();
+  process.stdin.setEncoding("ascii");
+  let read = "";
+  process.stdin.on("data", function (input) {
+    read += input;
+  });
+  process.stdin.on("end", function () {
+    read = read.replace(/\n$/, "");
+    read = read.replace(/\n$/, "");
+    runProgram(read);
+  });
+  process.on("SIGINT", function () {
+    read = read.replace(/\n$/, "");
+    runProgram(read);
+    process.exit(0);
+  });
+}
