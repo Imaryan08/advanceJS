@@ -1,4 +1,4 @@
-// 1. Marks and Distinction //
+// 1. Marks and Distinction 
 
 function solve(n, arr) {
   let stk = [];
